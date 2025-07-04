@@ -77,7 +77,6 @@ export function ExpenseProvider({ children }) {
       id: Date.now().toString(),
       ...expense,
       date: new Date().toISOString(),
-      photo: expense.photo || null,
     };
     dispatch({ type: 'ADD_EXPENSE', payload: newExpense });
     const updatedExpenses = [newExpense, ...state.expenses];

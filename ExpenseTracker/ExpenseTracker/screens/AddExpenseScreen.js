@@ -9,10 +9,8 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
 import { useExpense } from '../context/ExpenseContext';
 
 export default function AddExpenseScreen({ navigation }) {
@@ -22,75 +20,6 @@ export default function AddExpenseScreen({ navigation }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
-  const [photo, setPhoto] = useState(null);
-
-  const handleTakePhoto = async () => {
-    try {
-      // Request permission
-      const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-      
-      if (permissionResult.granted === false) {
-        Alert.alert('Permission Required', 'Camera permission is needed to take photos of receipts.');
-        return;
-      }
-
-      // Launch camera
-      const result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 0.7,
-      });
-
-      if (!result.canceled) {
-        setPhoto(result.assets[0].uri);
-      }
-    } catch (error) {
-      Alert.alert('Error', 'Failed to take photo. Please try again.');
-    }
-  };
-
-  const handlePickImage = async () => {
-    try {
-      // Request permission
-      const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      
-      if (permissionResult.granted === false) {
-        Alert.alert('Permission Required', 'Photo library permission is needed to select photos.');
-        return;
-      }
-
-      // Launch image picker
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 0.7,
-      });
-
-      if (!result.canceled) {
-        setPhoto(result.assets[0].uri);
-      }
-    } catch (error) {
-      Alert.alert('Error', 'Failed to pick image. Please try again.');
-    }
-  };
-
-  const showImageOptions = () => {
-    Alert.alert(
-      'Add Receipt Photo',
-      'Choose an option',
-      [
-        { text: 'Take Photo', onPress: handleTakePhoto },
-        { text: 'Choose from Gallery', onPress: handlePickImage },
-        { text: 'Cancel', style: 'cancel' },
-      ]
-    );
-  };
-
-  const removePhoto = () => {
-    setPhoto(null);
-  };
 
   const handleAddExpense = async () => {
     if (!title.trim()) {
@@ -115,7 +44,6 @@ export default function AddExpenseScreen({ navigation }) {
         amount: parseFloat(amount).toFixed(2),
         categoryId: selectedCategory.id,
         description: description.trim(),
-        photo: photo,
       });
 
       Alert.alert('Success', 'Expense added successfully!', [
@@ -126,7 +54,6 @@ export default function AddExpenseScreen({ navigation }) {
             setAmount('');
             setSelectedCategory(null);
             setDescription('');
-            setPhoto(null);
             navigation.navigate('Home');
           },
         },
@@ -219,25 +146,6 @@ export default function AddExpenseScreen({ navigation }) {
             multiline
             numberOfLines={3}
           />
-        </View>
-
-        {/* Receipt Photo Section */}
-        <View style={styles.inputSection}>
-          <Text style={styles.inputLabel}>Receipt Photo (Optional)</Text>
-          {photo ? (
-            <View style={styles.photoContainer}>
-              <Image source={{ uri: photo }} style={styles.photoPreview} />
-              <TouchableOpacity style={styles.removePhotoButton} onPress={removePhoto}>
-                <Ionicons name="close-circle" size={24} color="#FF3B30" />
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <TouchableOpacity style={styles.photoButton} onPress={showImageOptions}>
-              <Ionicons name="camera" size={32} color="#007AFF" />
-              <Text style={styles.photoButtonText}>Add Receipt Photo</Text>
-              <Text style={styles.photoButtonSubtext}>Take a photo or choose from gallery</Text>
-            </TouchableOpacity>
-          )}
         </View>
 
         {/* Add Button */}
@@ -390,85 +298,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginLeft: 8,
-  },
-  // Camera styles
-  cameraContainer: {
-    flex: 1,
-  },
-  camera: {
-    flex: 1,
-  },
-  cameraOverlay: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    justifyContent: 'space-between',
-  },
-  cameraCloseButton: {
-    position: 'absolute',
-    top: 50,
-    right: 20,
-    zIndex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    borderRadius: 25,
-    padding: 10,
-  },
-  cameraControls: {
-    alignItems: 'center',
-    paddingBottom: 50,
-  },
-  captureButton: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 4,
-    borderColor: '#007AFF',
-  },
-  captureButtonInner: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#007AFF',
-  },
-  // Photo styles
-  photoContainer: {
-    position: 'relative',
-    alignItems: 'center',
-  },
-  photoPreview: {
-    width: '100%',
-    height: 200,
-    borderRadius: 10,
-    resizeMode: 'cover',
-  },
-  removePhotoButton: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    backgroundColor: 'white',
-    borderRadius: 12,
-  },
-  photoButton: {
-    alignItems: 'center',
-    padding: 30,
-    borderWidth: 2,
-    borderColor: '#007AFF',
-    borderStyle: 'dashed',
-    borderRadius: 10,
-    backgroundColor: '#f8f9fa',
-  },
-  photoButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#007AFF',
-    marginTop: 10,
-  },
-  photoButtonSubtext: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 5,
-    textAlign: 'center',
   },
 });

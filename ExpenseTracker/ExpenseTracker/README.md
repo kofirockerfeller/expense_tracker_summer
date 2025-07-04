@@ -1,6 +1,6 @@
-# SpendSmart - Expense Tracker App
+# Expense Tracker App
 
-A React Native mobile application built with Expo for tracking personal expenses. SpendSmart helps users manage their spending by categorizing expenses, capturing receipt photos, and providing visual insights into their financial habits.
+A React Native mobile application built with Expo for tracking personal expenses. This app helps users manage their spending by categorizing expenses and providing visual insights into their financial habits.
 
 ## Features
 
@@ -14,8 +14,6 @@ A React Native mobile application built with Expo for tracking personal expenses
 - **Amount Input**: Large, prominent input field for expense amount
 - **Title & Description**: Text fields for expense details
 - **Category Selection**: Horizontal scrollable category picker with colorful icons
-- **📸 Receipt Photo Capture**: Built-in camera functionality to capture receipt photos
-- **Photo Management**: Preview captured photos and remove them if needed
 - **Form Validation**: Ensures all required fields are filled before saving
 - **Success Feedback**: Confirmation alert when expense is successfully added
 

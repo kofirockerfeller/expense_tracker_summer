@@ -1,11 +1,12 @@
 {
   "expo": {
-    "name": "SpendSmart - Expense Tracker",
-    "slug": "spendsmart-expense-tracker",
+    "name": "ExpenseTracker",
+    "slug": "ExpenseTracker",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -19,19 +20,10 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["CAMERA", "WRITE_EXTERNAL_STORAGE"]
+      "edgeToEdgeEnabled": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      [
-        "expo-image-picker",
-        {
-          "photosPermission": "Allow SpendSmart to access your photo library to select receipt images.",
-          "cameraPermission": "Allow SpendSmart to access your camera to capture receipt photos."
-        }
-      ]
-    ]
+    }
   }
 }
